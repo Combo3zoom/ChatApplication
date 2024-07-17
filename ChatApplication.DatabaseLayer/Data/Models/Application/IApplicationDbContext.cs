@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace ChatApplication.database.Data.Models.Application;
+namespace ChatApplication.Database.Data.Models.Application;
 
 public interface IApplicationDbContext
 {

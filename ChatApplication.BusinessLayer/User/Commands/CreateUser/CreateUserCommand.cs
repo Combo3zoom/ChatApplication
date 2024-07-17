@@ -1,21 +1,24 @@
-using ChatApplication.database.Data.Models.Application;
+using ChatApplication.Database.Data.Models.Application;
 using MediatR;
 
 namespace ChatApplication.Services.User.Commands.CreateUser;
 
-public record CreateUserCommand(string Name): IRequest<uint>;
+public record CreateUserCommand(string Username): IRequest<uint>;
 
 public class CreateUserCommandHandler(IApplicationDbContext context) 
     : IRequestHandler<CreateUserCommand, uint>
 {
     public async Task<uint> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        var entity = new database.Data.Models.User(request.Name); 
+        var user = new Database.Data.Models.User(default,
+            request.Username, 
+            Array.Empty<Database.Data.Models.Chat>(),
+            Array.Empty<Database.Data.Models.Chat>()); 
         
-        context.Users.Add(entity);
+        context.Users.Add(user);
         
         await context.SaveChangesAsync(cancellationToken);
 
-        return entity.Id;
+        return user.Id;
     }
 }

@@ -1,20 +1,39 @@
-using ChatApplication.database.Data.Models;
-using ChatApplication.database.Data.Models.Application;
+using ChatApplication.Database.Data.Models;
+using ChatApplication.Database.Data.Models.Application;
+using ChatApplication.Database.Services;
+using ChatApplication.database.Services.Service;
 using MediatR;
-namespace ChatApplication.Services.Chat.Commands.CreateChat;
-public record CreateChatCommand(string Name, database.Data.Models.User Owner) : IRequest<uint>;
+using Microsoft.EntityFrameworkCore;
 
-public class CreateChatCommandHandler(IApplicationDbContext context) : IRequestHandler<CreateChatCommand, uint>
+namespace ChatApplication.Services.Chat.Commands.CreateChat;
+public record CreateChatCommand(string Name, uint UserId) : IRequest<uint>;
+public record CreateChatBody(string Name) : IRequest<uint>;
+
+
+public class CreateChatCommandHandler(IApplicationDbContext context, IChatService chatService)
+    : IRequestHandler<CreateChatCommand, uint>
 {
     public async Task<uint> Handle(CreateChatCommand request, CancellationToken cancellationToken)
     {
-        var entity = new database.Data.Models.Chat(request.Name, request.Owner.Id);
-        entity.JoinedUsers.Add(request.Owner);
+        var user = await context.Users.Where(user => user.Id == request.UserId)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (user == null)
+            throw new Exception("User not found");
+
+        var joinedUsers = new[] { user };
         
-        context.Chats.Add(entity);
+        var chat = new Database.Data.Models.Chat(default, 
+            request.Name, 
+            request.UserId,
+            user,
+            new List<Database.Data.Models.Message>(),
+            joinedUsers);
+        
+        context.Chats.Add(chat);
 
         await context.SaveChangesAsync(cancellationToken);
 
-        return entity.Id;
+        return chat.Id;
     }
 }

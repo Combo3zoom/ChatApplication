@@ -7,7 +7,6 @@ public class CreateChatCommandValidator: AbstractValidator<CreateChatCommand>
     public CreateChatCommandValidator()
     {
         RuleFor(v => v.Name)
-            .NotEmpty()
-            .MaximumLength(20);
+            .NotEmpty();
     }
 }

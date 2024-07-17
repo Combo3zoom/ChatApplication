@@ -1,33 +1,76 @@
+using ChatApplication.Database.Data.Models;
+using ChatApplication.Database.Services;
+using ChatApplication.Services.Chat.Commands.AddChatUser;
+using ChatApplication.Services.Chat.Commands.CreateChat;
+using ChatApplication.Services.Chat.Commands.DeleteChat;
+using ChatApplication.Services.Chat.Commands.UpdateSendMessagesChat;
+using ChatApplication.Services.Chat.Queries.GetByIdChat;
+using ChatApplication.Services.Message.Commands.CreateMessage;
+using ChatApplication.Services.Message.Queries.GetByIdMessage;
+using ChatApplication.Services.Message.Queries.GetMessagesByChat;
+using ChatApplication.Services.User.Queries.GetByIdUser;
+using ChatApplication.Services.User.Queries.GetByIdUserConnection;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ChatApplication.Hub;
 
 namespace ChatApplication.Controllers
 {
     [ApiController]
-    public class ChatController(IChatService chatService) : ControllerBase
+    public class ChatController(ISender mediator) : ControllerBase
     {
-        [HttpPost("api/chats/{chatId:int}/users/{userId:int}/join")]
-        public async Task<IActionResult> JoinChat(
-            [FromRoute] uint chatId,
+        [HttpPost("api/users/{userId:int}/chats")]
+        public async Task<ActionResult<uint>> CreateChat(
+            [FromRoute] uint userId, 
+            [FromBody] CreateChatBody body)
+        {
+            var chatId = await mediator
+                .Send(new CreateChatCommand(body.Name, userId));
+            
+            return CreatedAtAction(nameof(GetByIdChat), new { id = chatId }, chatId);
+        }
+
+        [HttpDelete("api/users/{userId:int}/chats/{chatId:int}")]
+        public async Task<IActionResult> DeleteChat(
+            [FromRoute] uint userId, 
+            [FromRoute] uint chatId)
+        {
+            await mediator.Send(new DeleteChatCommand(userId, chatId));
+            
+            return NoContent();
+        }
+
+        [HttpPut("api/users/{userId:int}/chats/{chatId:int}/join")]
+        public async Task<IActionResult> AddChatUser(
+            [FromRoute] uint chatId, 
             [FromRoute] uint userId)
         {
-            await chatService.JoinChat("example-connection-id", chatId, userId);
-            return Ok();
+            await mediator.Send(new AddChatUserCommand(chatId, userId));
+            
+            return NoContent();
         }
 
-        [HttpPost("api/chats/{chatId:int}/users/{userId:int}/send")]
-        public async Task<IActionResult> SendMessage(
+        [HttpPost("api/users/{userId:int}/chats/{chatId}/messages")]
+        public async Task<IActionResult> SendChatMessage(
             [FromRoute] uint chatId,
             [FromRoute] uint userId,
-            [FromBody] MessageDto messageDto)
+            [FromBody] SendChatMessageBody body)
         {
-            await chatService.SendMessage("example-connection-id", messageDto.Message);
-            return Ok();
+            await mediator.Send(new SendChatMessageCommand(chatId, userId, body.Message));
+            return NoContent();
         }
-    }
 
-    public class MessageDto(string message)
-    {
-        public string Message { get; set; } = message;
+        [HttpGet("api/chats/{id}")]
+        public async Task<ActionResult<GetByIdChatQueryResponse>> GetByIdChat(
+            [FromRoute] uint id)
+        {
+            return Ok(await mediator.Send(new GetByIdChatQuery(id)));
+        }
+        
+        [HttpGet("api/chats/{id:int}/messages")]
+        public async Task<ActionResult<GetByIdChatQueryResponse>> GetByChatIdMessages(
+            [FromRoute] uint id)
+        {
+            return Ok(await mediator.Send(new GetByChatIdMessagesQuery(id)));
+        }
     }
 }

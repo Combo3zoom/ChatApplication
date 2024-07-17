@@ -1,21 +1,26 @@
-using ChatApplication.database.Data;
+using ChatApplication.Database.Data;
 using MediatR;
 
 namespace ChatApplication.Services.Message.Commands.CreateMessage;
 
-public record CreateMessageCommand(string Message, uint UserId, uint ChatId): IRequest<uint>;
+public record CreateMessageCommand(uint UserId, uint ChatId, string Message): IRequest<uint>;
 
 public class CreateMessageCommandHandler(ApplicationDbContext context )
     : IRequestHandler<CreateMessageCommand, uint>
 {
     public async Task<uint> Handle(CreateMessageCommand request, CancellationToken cancellationToken)
     {
-        var entity = new database.Data.Models.Message(request.Message, request.UserId, request.ChatId);
+        var message = new Database.Data.Models.Message(default,
+            request.UserId,
+            null,
+            request.ChatId,
+            null,
+            request.Message);
         
-        context.Messages.Add(entity);
+        context.Messages.Add(message);
 
         await context.SaveChangesAsync(cancellationToken);
         
-        return entity.Id;
+        return message.Id;
     }
 }

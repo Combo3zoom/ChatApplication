@@ -1,8 +1,8 @@
-using ChatApplication.database.Data.Models;
+using ChatApplication.Database.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ChatApplication.database.Data.Configurations;
+namespace ChatApplication.Database.Data.Configurations;
 
 public class UserConfigurations : IEntityTypeConfiguration<User>
 {
@@ -25,5 +25,6 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
 
         builder.Property(u => u.Name)
             .IsRequired();
+        
     }
 }

@@ -1,29 +1,29 @@
 using Ardalis.GuardClauses;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using ChatApplication.database.Data.Models.Application;
+using ChatApplication.Database.Data.Models.Application;
 using MediatR;
 
 namespace ChatApplication.Services.User.Queries.GetByIdUser;
 
-public record GetByIdUserQuery(uint Id) : IRequest<UserBriefDto>;
+public record GetByIdUserQuery(uint Id) : IRequest<GetByIdUserQueryResponse>;
 
 public class GetByIdUserQueryHandler(IApplicationDbContext context, IMapper mapper)
-    : IRequestHandler<GetByIdUserQuery, UserBriefDto>
+    : IRequestHandler<GetByIdUserQuery, GetByIdUserQueryResponse>
 {
-    public Task<UserBriefDto> Handle(GetByIdUserQuery request, CancellationToken cancellationToken)
+    public Task<GetByIdUserQueryResponse> Handle(GetByIdUserQuery request, CancellationToken cancellationToken)
     {
         var userBriefDto = context.Users
             .Where(user => user.Id == request.Id);
         
-        var transformateduserBriefDto = userBriefDto
-            .ProjectTo<UserBriefDto>(mapper.ConfigurationProvider)
+        var transformatedUserBriefDto = userBriefDto
+            .ProjectTo<GetByIdUserQueryResponse>(mapper.ConfigurationProvider)
             .SingleOrDefault();
         
-        if (transformateduserBriefDto is null)
-            throw new NotFoundException(nameof(request.Id), nameof(context.Chats));
+        if (transformatedUserBriefDto is null)
+            throw new NotFoundException(nameof(request.Id), nameof(context.Users));
 
-        return Task.FromResult(transformateduserBriefDto);
+        return Task.FromResult(transformatedUserBriefDto);
     }
 }
 

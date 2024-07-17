@@ -1,10 +1,10 @@
 using System.Reflection;
-using ChatApplication.database.Data.Models;
-using ChatApplication.database.Data.Models.Application;
+using ChatApplication.Database.Data.Models;
+using ChatApplication.Database.Data.Models.Application;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace ChatApplication.database.Data;
+namespace ChatApplication.Database.Data;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
     : IdentityDbContext<ApplicationRole>(options), IApplicationDbContext

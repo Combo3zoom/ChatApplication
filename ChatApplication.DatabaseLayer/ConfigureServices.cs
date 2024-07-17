@@ -1,11 +1,11 @@
 using Ardalis.GuardClauses;
-using ChatApplication.database.Data;
-using ChatApplication.database.Data.Models.Application;
+using ChatApplication.Database.Data;
+using ChatApplication.Database.Data.Models.Application;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ChatApplication.database;
+namespace ChatApplication.Database;
 
 public static class ConfigureServices
 {

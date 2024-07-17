@@ -1,14 +1,11 @@
-using ChatApplication.database;
-using ChatApplication.Hub;
+using ChatApplication.Database;
+using ChatApplication.Database.Services;
+using ChatApplication.Database.Services.Hub;
+using ChatApplication.database.Services.Service;
+using ChatApplication.Database.Services.Service;
 using ChatApplication.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddStackExchangeRedisCache(option =>
-{
-    var connection = builder.Configuration.GetConnectionString("Redis");
-    option.Configuration = connection;
-});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -18,8 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddBusinessLayerServices();
 builder.Services.AddDataBaseLayerServices(builder.Configuration);
 
-builder.Services.AddSingleton<IChatService, ChatService>();
-builder.Services.AddSingleton<ChatHub>();
+builder.Services.AddScoped<IChatService, ChatService>();
 
 var app = builder.Build();
 
@@ -35,3 +31,8 @@ app.MapHub<ChatHub>("/chat");
 app.MapControllers();
 
 app.Run();
+
+namespace LightsOn.WebApi
+{
+    public partial class Program { }
+}

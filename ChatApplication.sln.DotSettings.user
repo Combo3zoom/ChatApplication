@@ -1,0 +1,12 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=02ce1795_002Dbda1_002D474d_002D9257_002D1993c6d96969/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ShouldCreateUser" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::064085D2-70C4-40B9-9DB7-894617DC2DAB::net8.0::ChatApplication.BusinessLayer.IntegrationTests.User.Commands.CreateUser.CreateUserCommandHandlerTests.ShouldCreateUser&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=62a9b425_002Dbf31_002D475c_002Da9ea_002Daaec6b2bb275/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="HandleGivenValidRequestShouldCreateUser" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;ProjectFolder&gt;064085D2-70C4-40B9-9DB7-894617DC2DAB/d:User&lt;/ProjectFolder&gt;&#xD;
+    &lt;ProjectFolder&gt;FA351ADF-39C0-4C73-A7AF-F7174A0D21D5/d:User&lt;/ProjectFolder&gt;&#xD;
+  &lt;/Or&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
