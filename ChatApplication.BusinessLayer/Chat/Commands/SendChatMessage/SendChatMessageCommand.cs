@@ -1,33 +1,40 @@
 using Ardalis.GuardClauses;
-using ChatApplication.Database.Data.Models;
 using ChatApplication.Database.Data.Models.Application;
-using ChatApplication.Database.Services;
-using ChatApplication.database.Services.Service;
-using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using ChatApplication.Services.Chat.Commands.SendChatMessage;
 
 namespace ChatApplication.Services.Chat.Commands.UpdateSendMessagesChat;
 
 public record SendChatMessageCommand(
     uint ChatId, 
     uint UserId, 
-    string Message) : IRequest;
+    string Message): IRequest<SendChatMessageResponse>;
 
-public record SendChatMessageBody(string Message);
-public class SendChatMessageCommandCommandHandler(
-    IApplicationDbContext context,
-    IChatService chatService)
-    : IRequestHandler<SendChatMessageCommand>
+public record SendChatMessageBody(string Message): IRequest<SendChatMessageResponse>;
+
+public class SendChatMessageCommandHandler(
+    IApplicationDbContext context)
+    : IRequestHandler<SendChatMessageCommand, SendChatMessageResponse>
 {
-    public async Task Handle(SendChatMessageCommand request, CancellationToken cancellationToken)
+    public async Task<SendChatMessageResponse> Handle(SendChatMessageCommand request, CancellationToken cancellationToken)
     {
-        context.Chats.AnyAsync(chat => chat.Id == request.ChatId);
-        
+        var chatId = await context.Chats
+            .Select(c => c.Id)
+            .FirstOrDefaultAsync(id => id == request.ChatId, cancellationToken);
+
+        Guard.Against.NotFound(request.ChatId, chatId);
+
+        var userId = await context.Chats
+            .Select(user => user.Id)
+            .FirstOrDefaultAsync(id => id == request.UserId, cancellationToken);
+
+        Guard.Against.NotFound(request.UserId, userId);
+
         var message = new Database.Data.Models.Message(default,
-            request.UserId,
+            userId,
             null,
-            request.ChatId,
+            chatId,
             null,
             request.Message);
 
@@ -35,6 +42,18 @@ public class SendChatMessageCommandCommandHandler(
         
         await context.SaveChangesAsync(cancellationToken);
 
-        await chatService.SendMessage(request.UserId, request.ChatId, request.Message);
+        var isChatMember = await context.Chats
+            .Where(c => c.JoinedUsers.Any(u => u.Id == userId) && c.Id == chatId)
+                                        .Select(c => c.Id)
+                                        .AnyAsync();
+        if (!isChatMember)
+            throw new Exception("Chat has no users");
+
+        var username = await context.Users
+            .Where(u => u.Id == userId)
+            .Select(user => user.Name)
+            .FirstAsync();
+
+        return new SendChatMessageResponse(username);
     }
 }
