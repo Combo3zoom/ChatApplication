@@ -13,7 +13,7 @@ builder.Services.AddSignalR();
 builder.Services.AddControllers();
 
 builder.Services.AddBusinessLayerServices();
-builder.Services.AddDataBaseLayerServices(builder.Configuration);
+builder.Services.AddDatabaseLayerServices(builder.Configuration);
 
 builder.Services.AddScoped<IChatService, ChatService>();
 
