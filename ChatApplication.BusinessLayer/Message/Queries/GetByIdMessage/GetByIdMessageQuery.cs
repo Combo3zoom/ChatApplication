@@ -1,6 +1,7 @@
 using Ardalis.GuardClauses;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using ChatApplication.Database.Data.Models;
 using ChatApplication.Database.Data.Models.Application;
 using MediatR;
 
@@ -13,16 +14,18 @@ public class GetByIdMessageQueryHandler(IApplicationDbContext context, IMapper m
 {
     public Task<GetByIdMessageQueryResponse> Handle(GetByIdMessageQuery request, CancellationToken cancellationToken)
     {
-        var messagesBriefDto = context.Messages
+        var messagesResponse = context.Messages
             .Where(messages => messages.Id == request.Id);
-        
-        var transformatedmessagesBriefDto = messagesBriefDto
+
+        Guard.Against.NotFound(request.Id, messagesResponse);
+
+        var transformatedmessagesResponse = messagesResponse
             .ProjectTo<GetByIdMessageQueryResponse>(mapper.ConfigurationProvider)
             .SingleOrDefault();
         
-        if (transformatedmessagesBriefDto is null)
+        if (transformatedmessagesResponse is null)
             throw new NotFoundException(nameof(request.Id), nameof(context.Messages));
 
-        return Task.FromResult(transformatedmessagesBriefDto);
+        return Task.FromResult(transformatedmessagesResponse);
     }
 }

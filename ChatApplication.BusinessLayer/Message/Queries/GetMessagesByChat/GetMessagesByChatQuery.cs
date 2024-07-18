@@ -1,3 +1,4 @@
+using Ardalis.GuardClauses;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using ChatApplication.Database.Data.Models.Application;
@@ -15,8 +16,11 @@ public class GetMessagesByChatQueryHandler(IApplicationDbContext context, IMappe
     public async Task<List<GetByIdMessageQueryResponse>> Handle(GetByChatIdMessagesQuery request, CancellationToken cancellationToken)
     {
         var chat =  context.Chats
+            .Where(c => c.Id == request.ChatId)
             .Include(c => c.Messages)
-            .Where(c => c.Id == request.ChatId).Select(c => c.Messages);
+            .Select(c => c.Messages);
+
+        Guard.Against.NotFound(request.ChatId, chat);
 
         if (chat is null)
             throw new Exception("Chat doesn't exist");

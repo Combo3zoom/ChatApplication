@@ -1,6 +1,5 @@
 using Ardalis.GuardClauses;
 using ChatApplication.Database.Data.Models.Application;
-using ChatApplication.Database.Services;
 using ChatApplication.database.Services.Service;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
