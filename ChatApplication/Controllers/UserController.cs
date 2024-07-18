@@ -11,13 +11,13 @@ public class UserController(ISender mediator) : ControllerBase
     private readonly ISender _mediator = mediator;
 
     [HttpGet("api/users/{id}")]
-    public async Task<GetByIdUserQueryResponse> GetByIdUser(uint id)
+    public async Task<ActionResult<GetByIdUserQueryResponse>> GetByIdUser(uint id)
     {
-        return await mediator.Send(new GetByIdUserQuery(id));
+        return Ok(await mediator.Send(new GetByIdUserQuery(id)));
     }
 
     [HttpPost("api/users/create")]
-    public async Task<CreatedAtActionResult> CreateUser(CreateUserCommand command)
+    public async Task<ActionResult<CreatedAtActionResult>> CreateUser(CreateUserCommand command)
     {
         var userId = await _mediator.Send(command);
         return CreatedAtAction(nameof(GetByIdUser), new { id = userId }, userId);
