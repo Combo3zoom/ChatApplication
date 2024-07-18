@@ -2,9 +2,9 @@ using FluentValidation;
 
 namespace ChatApplication.Services.User.Commands.CreateUser;
 
-public class CreateUserCommandValidation : AbstractValidator<CreateUserCommand>
+public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 {
-    public CreateUserCommandValidation()
+    public CreateUserCommandValidator()
     {
         RuleFor(v => v.Username)
             .NotEmpty();

@@ -7,7 +7,7 @@ namespace ChatApplication.BusinessLayer.UnitTests.User.Commands;
 
 public partial class CreateUserCommandTesting
 {
-    private readonly CreateUserCommandValidation _validator;
+    private readonly CreateUserCommandValidator _validator;
     private readonly Mock<IApplicationDbContext> _mockContext;
     private readonly CreateUserCommandHandler _handler;
 
@@ -19,7 +19,7 @@ public partial class CreateUserCommandTesting
         _mockContext.Setup(m => m.Users).Returns(mockDbSet.Object);
 
         _handler = new CreateUserCommandHandler(_mockContext.Object);
-        _validator = new CreateUserCommandValidation();
+        _validator = new CreateUserCommandValidator();
     }
     
     private static Mock<DbSet<ChatApplication.Database.Data.Models.User>> CreateMockDbSet()

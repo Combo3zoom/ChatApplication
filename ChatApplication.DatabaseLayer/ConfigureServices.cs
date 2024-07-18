@@ -9,7 +9,7 @@ namespace ChatApplication.Database;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddDataBaseLayerServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddDatabaseLayerServices(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
