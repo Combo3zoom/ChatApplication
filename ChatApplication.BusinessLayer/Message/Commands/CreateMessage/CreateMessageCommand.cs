@@ -1,5 +1,7 @@
+using Ardalis.GuardClauses;
 using ChatApplication.Database.Data;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChatApplication.Services.Message.Commands.CreateMessage;
 
@@ -10,6 +12,12 @@ public class CreateMessageCommandHandler(ApplicationDbContext context )
 {
     public async Task<uint> Handle(CreateMessageCommand request, CancellationToken cancellationToken)
     {
+        var chat = await context.Chats.FirstOrDefaultAsync(chat => chat.Id == request.ChatId, cancellationToken);
+        var user = await context.Users.FirstOrDefaultAsync(user => user.Id == request.UserId, cancellationToken);
+
+        Guard.Against.NotFound(request.ChatId, chat);
+        Guard.Against.NotFound(request.UserId, user);
+
         var message = new Database.Data.Models.Message(default,
             request.UserId,
             null,

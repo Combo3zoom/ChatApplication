@@ -1,15 +1,9 @@
-using ChatApplication.Database.Data.Models;
-using ChatApplication.Database.Services;
 using ChatApplication.Services.Chat.Commands.AddChatUser;
 using ChatApplication.Services.Chat.Commands.CreateChat;
 using ChatApplication.Services.Chat.Commands.DeleteChat;
 using ChatApplication.Services.Chat.Commands.UpdateSendMessagesChat;
 using ChatApplication.Services.Chat.Queries.GetByIdChat;
-using ChatApplication.Services.Message.Commands.CreateMessage;
-using ChatApplication.Services.Message.Queries.GetByIdMessage;
 using ChatApplication.Services.Message.Queries.GetMessagesByChat;
-using ChatApplication.Services.User.Queries.GetByIdUser;
-using ChatApplication.Services.User.Queries.GetByIdUserConnection;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

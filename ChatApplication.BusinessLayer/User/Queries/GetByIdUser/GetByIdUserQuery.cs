@@ -1,8 +1,10 @@
 using Ardalis.GuardClauses;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using ChatApplication.Database.Data.Models;
 using ChatApplication.Database.Data.Models.Application;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChatApplication.Services.User.Queries.GetByIdUser;
 
@@ -13,17 +15,19 @@ public class GetByIdUserQueryHandler(IApplicationDbContext context, IMapper mapp
 {
     public Task<GetByIdUserQueryResponse> Handle(GetByIdUserQuery request, CancellationToken cancellationToken)
     {
-        var userBriefDto = context.Users
+        var userResponse = context.Users
             .Where(user => user.Id == request.Id);
-        
-        var transformatedUserBriefDto = userBriefDto
+
+        Guard.Against.NotFound(request.Id, userResponse);
+
+        var transformatedUserResponse = userResponse
             .ProjectTo<GetByIdUserQueryResponse>(mapper.ConfigurationProvider)
             .SingleOrDefault();
         
-        if (transformatedUserBriefDto is null)
+        if (transformatedUserResponse is null)
             throw new NotFoundException(nameof(request.Id), nameof(context.Users));
 
-        return Task.FromResult(transformatedUserBriefDto);
+        return Task.FromResult(transformatedUserResponse);
     }
 }
 
