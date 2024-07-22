@@ -1,7 +1,6 @@
 using Ardalis.GuardClauses;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using ChatApplication.Database.Data.Models.Application;
+using MapsterMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,20 +11,18 @@ public record GetByIdChatQuery(uint Id): IRequest<GetByIdChatQueryResponse>;
 public class GetByIdChatQueryHandler(IApplicationDbContext context, IMapper mapper)
     : IRequestHandler<GetByIdChatQuery, GetByIdChatQueryResponse>
 {
-    public Task<GetByIdChatQueryResponse> Handle(GetByIdChatQuery request, CancellationToken cancellationToken)
+    public async Task<GetByIdChatQueryResponse> Handle(GetByIdChatQuery request, CancellationToken cancellationToken)
     {
-        var chatResponse = context.Chats
-            .Where(chat => chat.Id == request.Id);
+        var chatResponse = await context.Chats
+            .SingleOrDefaultAsync(chat => chat.Id == request.Id, cancellationToken: cancellationToken);
 
         Guard.Against.NotFound(request.Id, chatResponse);
 
-        var transformatedchatResponse = chatResponse
-            .ProjectTo<GetByIdChatQueryResponse>(mapper.ConfigurationProvider)
-            .SingleOrDefault();
+        var transformatedchatResponse = mapper.Map<GetByIdChatQueryResponse>(chatResponse);
         
         if (transformatedchatResponse is null)
             throw new NotFoundException(nameof(request.Id), nameof(context.Chats));
 
-        return Task.FromResult(transformatedchatResponse);
+        return await Task.FromResult(transformatedchatResponse);
     }
 }

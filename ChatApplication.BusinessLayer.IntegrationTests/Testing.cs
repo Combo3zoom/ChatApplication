@@ -1,5 +1,5 @@
-﻿using ChatApplication.Database.Data;
-using ChatApplication.database.Services.Hub;
+﻿using ChatApplication.Controllers.Hub.OuterLayerChats;
+using ChatApplication.Database.Data;
 using LightsOn.Application.IntegrationTests;
 using MediatR;
 using Microsoft.AspNetCore.Identity;

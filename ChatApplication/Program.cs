@@ -1,7 +1,7 @@
+using ChatApplication.Controllers.Hub.OuterLayerChats;
+using ChatApplication.Controllers.Hub.ServicesChat;
 using ChatApplication.Database;
-using ChatApplication.Database.Services.Hub;
 using ChatApplication.database.Services.Service;
-using ChatApplication.Database.Services.Service;
 using ChatApplication.Services;
 
 var builder = WebApplication.CreateBuilder(args);

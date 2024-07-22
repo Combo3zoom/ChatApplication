@@ -1,6 +1,5 @@
 ﻿using System.Data.Common;
 using ChatApplication.Database.Data;
-using ChatApplication.database.Services.Hub;
 using LightsOn.Application.IntegrationTests;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -10,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Identity.Client;
 using ChatApplication;
+using ChatApplication.Controllers.Hub.OuterLayerChats;
 using LightsOn.WebApi;
 
 namespace ChatApplication.BusinessLayer.IntegrationTests;

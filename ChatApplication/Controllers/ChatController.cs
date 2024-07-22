@@ -1,8 +1,9 @@
 using ChatApplication.Services.Chat.Commands.AddChatUser;
 using ChatApplication.Services.Chat.Commands.CreateChat;
 using ChatApplication.Services.Chat.Commands.DeleteChat;
-using ChatApplication.Services.Chat.Commands.UpdateSendMessagesChat;
+using ChatApplication.Services.Chat.Commands.SendChatMessage;
 using ChatApplication.Services.Chat.Queries.GetByIdChat;
+using ChatApplication.Services.Chat.Queries.GetChats;
 using ChatApplication.Services.Message.Queries.GetMessagesByChat;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -65,6 +66,12 @@ namespace ChatApplication.Controllers
             [FromRoute] uint id)
         {
             return Ok(await mediator.Send(new GetByChatIdMessagesQuery(id)));
+        }
+        
+        [HttpGet("api/chats")]
+        public async Task<ActionResult<GetByIdChatQueryResponse>> GetChats()
+        {
+            return Ok(await mediator.Send(new GetChatsQuery()));
         }
     }
 }
