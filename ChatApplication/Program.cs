@@ -1,5 +1,4 @@
 using ChatApplication.Database;
-using ChatApplication.Database.Services;
 using ChatApplication.Database.Services.Hub;
 using ChatApplication.database.Services.Service;
 using ChatApplication.Database.Services.Service;
@@ -25,6 +24,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseExceptionHandler();
 app.UseHttpsRedirection();
 
 app.MapHub<ChatHub>("/chat");

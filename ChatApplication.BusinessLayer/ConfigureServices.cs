@@ -1,8 +1,8 @@
 using System.Reflection;
 using ChatApplication.Services.Chat.Commands.CreateChat;
-using ChatApplication.Services.Chat.Commands.DeleteChat;
+using ChatApplication.Services.Common.Behaviors;
+using ChatApplication.Services.Common.Exceptions;
 using FluentValidation;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ChatApplication.Services;
@@ -17,7 +17,12 @@ public static class ConfigureServices
 
         services.AddMediatR(cfg => {
             cfg.RegisterServicesFromAssembly(typeof(CreateChatCommandHandler).Assembly);
+            cfg.AddOpenBehavior(typeof(RequestResponseLoggingBehavior<,>));
+            cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
         });
+        
+        services.AddExceptionHandler<GlobalExceptionHandler>();
+        services.AddProblemDetails();
         
         return services;
     }

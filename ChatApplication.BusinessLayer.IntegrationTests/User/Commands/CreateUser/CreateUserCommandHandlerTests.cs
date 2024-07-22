@@ -14,8 +14,6 @@ public partial class CreateUserCommandHandlerTests(Testing testing) : IClassFixt
     {
         new object[] { "" }
     };
-
-    
     
     private static Database.Data.Models.User CreateRandomUser()
     {
