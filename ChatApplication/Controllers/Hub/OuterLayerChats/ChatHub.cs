@@ -1,8 +1,7 @@
-using ChatApplication.database.Services.Hub;
 using ChatApplication.database.Services.Service;
 using Microsoft.AspNetCore.SignalR;
 
-namespace ChatApplication.Database.Services.Hub;
+namespace ChatApplication.Controllers.Hub.OuterLayerChats;
 
 public class ChatHub(IChatService chatService) : Hub<IChatHub>
 {

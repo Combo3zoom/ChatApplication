@@ -1,20 +1,18 @@
-using AutoMapper;
-
 namespace ChatApplication.Services.Message.Queries.GetByIdMessage;
 
 public class GetByIdMessageQueryResponse
 {
-    public string text { get; init; }
+    public string Text { get; init; }
     public uint OwnerId { get; init; }
 
     private GetByIdMessageQueryResponse()
     {
-        text = string.Empty;
+        Text = string.Empty;
         OwnerId = 0;
-    } 
-    
-    private class Mapping : Profile
+    }
+    public GetByIdMessageQueryResponse(string text, uint ownerId)
     {
-        public Mapping() => CreateMap<Database.Data.Models.Message, GetByIdMessageQueryResponse>();
+        Text = text;
+        OwnerId = ownerId;
     }
 }

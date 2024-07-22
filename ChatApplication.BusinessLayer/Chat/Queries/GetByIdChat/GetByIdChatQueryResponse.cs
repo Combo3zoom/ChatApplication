@@ -1,9 +1,8 @@
-using AutoMapper;
-
 namespace ChatApplication.Services.Chat.Queries.GetByIdChat;
 
 public class GetByIdChatQueryResponse
 {
+    public uint Id { get; init; }
     public string Name { get; init; }
     public uint OwnerId { get; init; }
 
@@ -13,8 +12,10 @@ public class GetByIdChatQueryResponse
         OwnerId = 0;
     } 
     
-    private class Mapping : Profile
+    public GetByIdChatQueryResponse(uint id, string name, uint owner)
     {
-        public Mapping() => CreateMap<Database.Data.Models.Chat, GetByIdChatQueryResponse>();
-    }
+        Id = id;
+        Name = name;
+        OwnerId = owner;
+    } 
 }

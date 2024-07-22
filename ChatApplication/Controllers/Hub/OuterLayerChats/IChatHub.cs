@@ -1,4 +1,4 @@
-namespace ChatApplication.database.Services.Hub;
+namespace ChatApplication.Controllers.Hub.OuterLayerChats;
 
 public interface IChatHub
 {

@@ -1,14 +1,15 @@
 using FluentValidation;
 
-namespace ChatApplication.Services.Chat.Commands.UpdateSendMessagesChat;
-
-public class SendChatMessageCommandValidator: AbstractValidator<SendChatMessageCommand>
+namespace ChatApplication.Services.Chat.Commands.SendChatMessage
 {
-    public SendChatMessageCommandValidator()
+    public class SendChatMessageCommandValidator: AbstractValidator<SendChatMessageCommand>
     {
-        RuleFor(u => u.ChatId)
-            .NotEmpty();
-        RuleFor(u => u.Message)
-            .NotEmpty();
+        public SendChatMessageCommandValidator()
+        {
+            RuleFor(u => u.ChatId)
+                .NotEmpty();
+            RuleFor(u => u.Message)
+                .NotEmpty();
+        }
     }
 }

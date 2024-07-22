@@ -1,10 +1,11 @@
 using Ardalis.GuardClauses;
 using ChatApplication.Database.Data.Models.Application;
+using ChatApplication.Services.Message.Queries.GetByIdMessage;
+using MapsterMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using ChatApplication.Services.Chat.Commands.SendChatMessage;
 
-namespace ChatApplication.Services.Chat.Commands.UpdateSendMessagesChat;
+namespace ChatApplication.Services.Chat.Commands.SendChatMessage;
 
 public record SendChatMessageCommand(
     uint ChatId, 
@@ -14,7 +15,8 @@ public record SendChatMessageCommand(
 public record SendChatMessageBody(string Message): IRequest<SendChatMessageResponse>;
 
 public class SendChatMessageCommandHandler(
-    IApplicationDbContext context)
+    IApplicationDbContext context,
+    IMapper mapper)
     : IRequestHandler<SendChatMessageCommand, SendChatMessageResponse>
 {
     public async Task<SendChatMessageResponse> Handle(SendChatMessageCommand request, CancellationToken cancellationToken)
@@ -48,12 +50,10 @@ public class SendChatMessageCommandHandler(
                                         .AnyAsync();
         if (!isChatMember)
             throw new Exception("Chat has no users");
-
-        var username = await context.Users
+        
+        return await context.Users
             .Where(u => u.Id == userId)
-            .Select(user => user.Name)
-            .FirstAsync();
-
-        return new SendChatMessageResponse(username);
+            .Select(user=> mapper.Map<SendChatMessageResponse>(user))
+            .FirstAsync(cancellationToken: cancellationToken);
     }
 }

@@ -1,16 +1,12 @@
-using System.Text.Json;
+using ChatApplication.Controllers.Hub.OuterLayerChats;
 using ChatApplication.Database.Data.Models.Application;
-using ChatApplication.database.Services.Hub;
-using ChatApplication.Database.Services.Hub;
 using ChatApplication.database.Services.Service;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
-using ChatApplication.Services.Message.Queries.GetMessagesByChat;
+using ChatApplication.Services.Chat.Commands.SendChatMessage;
+using ChatApplication.Services.Chat.Queries.GetByUserIdChatsId;
 using MediatR;
-using ChatApplication.Services.Chat.Commands.UpdateSendMessagesChat;
-using ChatApplication.BusinessLayer.IntegrationTests.User.Queries.GetByUserIdChatsId;
+using Microsoft.AspNetCore.SignalR;
 
-namespace ChatApplication.Database.Services.Service;
+namespace ChatApplication.Controllers.Hub.ServicesChat;
 
 public class ChatService(IHubContext<ChatHub, IChatHub> hubContext, IApplicationDbContext context, ISender mediator)
     : IChatService
@@ -24,10 +20,6 @@ public class ChatService(IHubContext<ChatHub, IChatHub> hubContext, IApplication
     
     public async Task CreateChatsMessagesSubscription(string connectionId, uint userId)
     {
-        //var chatsId = await context.Chats.Where(chat => chat.JoinedUsers.Any(user => user.Id == userId))
-        //    .Select(chat => chat.Id)
-        //    .ToArrayAsync();
-
         var chatsIdByUser = await mediator.Send(new GetChatsIdByUserIdQuery(userId));
         
         foreach (var chatId in chatsIdByUser)
