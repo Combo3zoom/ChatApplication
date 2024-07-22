@@ -24,7 +24,12 @@ public static class ConfigureServices
 
         services.AddMediatR(cfg => {
             cfg.RegisterServicesFromAssembly(typeof(CreateChatCommandHandler).Assembly);
+            cfg.AddOpenBehavior(typeof(RequestResponseLoggingBehavior<,>));
+            cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
         });
+        
+        services.AddExceptionHandler<GlobalExceptionHandler>();
+        services.AddProblemDetails();
         
         return services;
     }
