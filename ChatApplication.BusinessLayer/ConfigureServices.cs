@@ -1,14 +1,14 @@
 using System.Reflection;
 using ChatApplication.Services.Chat.Commands.CreateChat;
-using ChatApplication.Services.Chat.Commands.DeleteChat;
 using ChatApplication.Services.Chat.Commands.SendChatMessage;
 using ChatApplication.Services.Chat.Queries.GetByIdChat;
 using ChatApplication.Services.Chat.Queries.GetByUserIdChatsId;
+using ChatApplication.Services.Common.Behaviors;
+using ChatApplication.Services.Common.Exceptions;
 using ChatApplication.Services.Message.Queries.GetByIdMessage;
 using ChatApplication.Services.User.Queries.GetByIdUser;
 using FluentValidation;
 using Mapster;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ChatApplication.Services;
