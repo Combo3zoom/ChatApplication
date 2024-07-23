@@ -17,8 +17,8 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddBusinessLayerServices(this IServiceCollection services)
     {
-        services.AddMapster();
         MapsterConfig.Configure();
+        services.AddMapster();
         
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
@@ -58,8 +58,9 @@ public static class MapsterConfig
             .ConstructUsing(src => new GetByIdMessageQueryResponse(src.Text, src.OwnerId));
         
         TypeAdapterConfig<Database.Data.Models.User, GetByIdUserQueryResponse>.NewConfig()
+            .Map(dest => dest.Id, src => src.Id)
             .Map(dest => dest.Name, src => src.Name)
-            .ConstructUsing(src => new GetByIdUserQueryResponse(src.Name));
+            .ConstructUsing(src => new GetByIdUserQueryResponse(src.Id, src.Name));
         
         TypeAdapterConfig<Database.Data.Models.User, SendChatMessageResponse>.NewConfig()
             .Map(dest => dest.Username, src => src.Name)
