@@ -5,8 +5,6 @@ using ChatApplication.database.Services.Service;
 using ChatApplication.Services;
 using Serilog;
 
-
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
@@ -40,7 +38,6 @@ app.MapHub<ChatHub>("/chat");
 app.MapControllers();
 
 app.Run();
-
 
 namespace LightsOn.WebApi
 {
