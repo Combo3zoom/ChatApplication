@@ -1,9 +1,11 @@
+using ChatApplication.Controllers.Hub.OuterLayerChats;
+using ChatApplication.Controllers.Hub.ServicesChat;
 using ChatApplication.Database;
-using ChatApplication.Database.Services;
-using ChatApplication.Database.Services.Hub;
 using ChatApplication.database.Services.Service;
-using ChatApplication.Database.Services.Service;
 using ChatApplication.Services;
+using Serilog;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,12 @@ builder.Services.AddDatabaseLayerServices(builder.Configuration);
 
 builder.Services.AddScoped<IChatService, ChatService>();
 
+builder.Host.UseSerilog((context, loggerConfiguration) =>
+{
+    loggerConfiguration.WriteTo.Console();
+    loggerConfiguration.ReadFrom.Configuration(context.Configuration);
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -25,12 +33,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseExceptionHandler();
 app.UseHttpsRedirection();
 
 app.MapHub<ChatHub>("/chat");
 app.MapControllers();
 
 app.Run();
+
 
 namespace LightsOn.WebApi
 {

@@ -1,18 +1,19 @@
-using AutoMapper;
-
 namespace ChatApplication.Services.User.Queries.GetByIdUser;
 
 public class GetByIdUserQueryResponse
 {
+    public uint Id { get; init; }
     public string Name { get; init; }
-
+    
     private GetByIdUserQueryResponse()
     {
+        Id = 0;
         Name = string.Empty;
-    } 
-    
-    private class Mapping : Profile
+    }
+
+    public GetByIdUserQueryResponse(uint id, string name)
     {
-        public Mapping() => CreateMap<Database.Data.Models.User, GetByIdUserQueryResponse>();
+        Id = id;
+        Name = name;
     }
 }

@@ -1,8 +1,9 @@
 using Ardalis.GuardClauses;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using ChatApplication.Database.Data.Models.Application;
+using ChatApplication.Services.Chat.Queries.GetByUserIdChatsId;
 using ChatApplication.Services.Message.Queries.GetByIdMessage;
+using Mapster;
+using MapsterMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,7 +27,7 @@ public class GetMessagesByChatQueryHandler(IApplicationDbContext context, IMappe
             throw new Exception("Chat doesn't exist");
         
         return await context.Messages
-            .ProjectTo<GetByIdMessageQueryResponse>(mapper.ConfigurationProvider)
+            .Select(message => mapper.Map<GetByIdMessageQueryResponse>(message))
             .ToListAsync(cancellationToken);
     }
 }

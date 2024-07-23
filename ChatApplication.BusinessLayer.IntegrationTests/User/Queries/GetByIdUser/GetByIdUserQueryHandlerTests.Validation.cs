@@ -8,9 +8,9 @@ public partial class GetByIdUserQueryHandlerTests
     [Theory]
     [MemberData(nameof(SExceptedUserTestCaseSourceIfUserNameIsEmpty))]
     public async Task ShouldThrowNotFoundExceptionIfUserIdNonExist(
-        Database.Data.Models.User incorrectUser)
+        uint incorrectUserId)
     {
-        var nonExistedUser = new GetByIdUserQuery(incorrectUser.Id);
+        var nonExistedUser = new GetByIdUserQuery(incorrectUserId);
         
         await FluentActions.Invoking(() => _testing.SendAsync(nonExistedUser))
             .Should().ThrowAsync<ValidationException>();

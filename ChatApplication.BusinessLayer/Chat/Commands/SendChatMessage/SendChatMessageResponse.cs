@@ -6,5 +6,18 @@ using System.Threading.Tasks;
 
 namespace ChatApplication.Services.Chat.Commands.SendChatMessage
 {
-    public record SendChatMessageResponse(string Username);
+    public class SendChatMessageResponse
+    {
+        public string Username { get; set; }
+
+        public SendChatMessageResponse()
+        {
+            Username = string.Empty;
+        }
+        
+        public SendChatMessageResponse(string usernName)
+        {
+            Username = usernName;
+        }
+    };
 }

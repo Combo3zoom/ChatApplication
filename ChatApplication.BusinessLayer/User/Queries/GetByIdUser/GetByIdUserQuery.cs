@@ -1,33 +1,39 @@
 using Ardalis.GuardClauses;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using ChatApplication.Database.Data.Models;
 using ChatApplication.Database.Data.Models.Application;
+using MapsterMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace ChatApplication.Services.User.Queries.GetByIdUser;
 
 public record GetByIdUserQuery(uint Id) : IRequest<GetByIdUserQueryResponse>;
 
-public class GetByIdUserQueryHandler(IApplicationDbContext context, IMapper mapper)
+public class GetByIdUserQueryHandler(
+    IApplicationDbContext context,
+    IMapper mapper,
+    ILogger<GetByIdUserQueryHandler> logger)
     : IRequestHandler<GetByIdUserQuery, GetByIdUserQueryResponse>
 {
-    public Task<GetByIdUserQueryResponse> Handle(GetByIdUserQuery request, CancellationToken cancellationToken)
+    public async Task<GetByIdUserQueryResponse> Handle(GetByIdUserQuery request, CancellationToken cancellationToken)
     {
-        var userResponse = context.Users
-            .Where(user => user.Id == request.Id);
+        var userResponse = await context.Users
+            .Where(user => user.Id == request.Id)
+            .FirstOrDefaultAsync(cancellationToken);;
 
         Guard.Against.NotFound(request.Id, userResponse);
 
-        var transformatedUserResponse = userResponse
-            .ProjectTo<GetByIdUserQueryResponse>(mapper.ConfigurationProvider)
-            .SingleOrDefault();
-        
-        if (transformatedUserResponse is null)
-            throw new NotFoundException(nameof(request.Id), nameof(context.Users));
+        var transformedUserResponse = mapper.Map<GetByIdUserQueryResponse>(userResponse);
 
-        return Task.FromResult(transformatedUserResponse);
+        if (transformedUserResponse is null)
+        {
+            logger.LogCritical("User {@userId} no exist. Query was called at {@CreateAt}", userResponse.Id, DateTimeOffset.Now);
+            throw new NotFoundException(nameof(request.Id), nameof(context.Users));
+        }
+        
+        logger.LogInformation("User {@userId} was got at {@CreateAt}", userResponse.Id, DateTimeOffset.Now);
+
+        return await Task.FromResult(transformedUserResponse);
     }
 }
 
