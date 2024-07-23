@@ -17,7 +17,7 @@ public class UserController(ISender mediator) : ControllerBase
         return CreatedAtAction(nameof(GetByIdUser), new { id = userId }, userId);
     }
     
-    [HttpGet("api/users/{id}")]
+    [HttpGet("api/users/{id:int}")]
     public async Task<ActionResult<GetByIdUserQueryResponse>> GetByIdUser(uint id)
     {
         return Ok(await mediator.Send(new GetByIdUserQuery(id)));

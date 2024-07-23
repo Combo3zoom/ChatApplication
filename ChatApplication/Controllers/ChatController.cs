@@ -44,7 +44,7 @@ namespace ChatApplication.Controllers
             return NoContent();
         }
 
-        [HttpPost("api/users/{userId:int}/chats/{chatId}/messages")]
+        [HttpPost("api/users/{userId:int}/chats/{chatId:int}/messages")]
         public async Task<IActionResult> SendChatMessage(
             [FromRoute] uint chatId,
             [FromRoute] uint userId,
@@ -54,7 +54,7 @@ namespace ChatApplication.Controllers
             return NoContent();
         }
 
-        [HttpGet("api/chats/{id}")]
+        [HttpGet("api/chats/{id:int}")]
         public async Task<ActionResult<GetByIdChatQueryResponse>> GetByIdChat(
             [FromRoute] uint id)
         {
