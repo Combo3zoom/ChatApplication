@@ -1,6 +1,7 @@
 using ChatApplication.Database.Data.Models.Application;
 using ChatApplication.Services.User.Commands.CreateUser;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace ChatApplication.BusinessLayer.UnitTests.User.Commands;
@@ -9,16 +10,18 @@ public partial class CreateUserCommandTesting
 {
     private readonly CreateUserCommandValidator _validator;
     private readonly Mock<IApplicationDbContext> _mockContext;
+    private readonly Mock<ILogger<CreateUserCommandHandler>> _mockLogger;
     private readonly CreateUserCommandHandler _handler;
 
     public CreateUserCommandTesting()
     {
         _mockContext = new Mock<IApplicationDbContext>();
+        _mockLogger = new Mock<ILogger<CreateUserCommandHandler>>();
         
         var mockDbSet = CreateMockDbSet();
         _mockContext.Setup(m => m.Users).Returns(mockDbSet.Object);
 
-        _handler = new CreateUserCommandHandler(_mockContext.Object);
+        _handler = new CreateUserCommandHandler(_mockContext.Object, _mockLogger.Object);
         _validator = new CreateUserCommandValidator();
     }
     
