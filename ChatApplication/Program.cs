@@ -1,11 +1,12 @@
+using Ardalis.GuardClauses;
 using ChatApplication.Controllers.Hub.OuterLayerChats;
 using ChatApplication.Controllers.Hub.ServicesChat;
 using ChatApplication.Database;
 using ChatApplication.database.Services.Service;
 using ChatApplication.Services;
 using Serilog;
-
-
+using Serilog.Events;
+using Serilog.Sinks.PostgreSQL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,8 +22,8 @@ builder.Services.AddScoped<IChatService, ChatService>();
 
 builder.Host.UseSerilog((context, loggerConfiguration) =>
 {
-    loggerConfiguration.WriteTo.Console();
-    loggerConfiguration.ReadFrom.Configuration(context.Configuration);
+    loggerConfiguration.ReadFrom.Configuration(context.Configuration)
+        .WriteTo.Console();
 });
 
 var app = builder.Build();
@@ -40,7 +41,6 @@ app.MapHub<ChatHub>("/chat");
 app.MapControllers();
 
 app.Run();
-
 
 namespace LightsOn.WebApi
 {
