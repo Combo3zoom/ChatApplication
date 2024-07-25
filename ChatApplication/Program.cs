@@ -11,7 +11,7 @@ using Serilog.Sinks.PostgreSQL;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddOpenApi();
 builder.Services.AddSignalR();
 builder.Services.AddControllers();
 
@@ -28,10 +28,11 @@ builder.Host.UseSerilog((context, loggerConfiguration) =>
 
 var app = builder.Build();
 
+app.MapOpenApi();
+
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+
 }
 
 app.UseExceptionHandler();
