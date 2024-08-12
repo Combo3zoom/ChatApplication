@@ -1,19 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication", "ChatApplication\ChatApplication.csproj", "{324D03CD-66B6-4DE6-AE33-8AECFC8C0D76}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34902.65
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApplication", "ChatApplication\ChatApplication.csproj", "{324D03CD-66B6-4DE6-AE33-8AECFC8C0D76}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0A325DD8-4CC1-465C-A339-B9E86A87BA36}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.DatabaseLayer", "ChatApplication.DatabaseLayer\ChatApplication.DatabaseLayer.csproj", "{8F6DED8C-C1D5-4D53-BF38-BB246FE0BD71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApplication.DatabaseLayer", "ChatApplication.DatabaseLayer\ChatApplication.DatabaseLayer.csproj", "{8F6DED8C-C1D5-4D53-BF38-BB246FE0BD71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.BusinessLayer", "ChatApplication.BusinessLayer\ChatApplication.BusinessLayer.csproj", "{12B57EC2-3A8B-442C-BAC9-4806E7D6F0D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApplication.BusinessLayer", "ChatApplication.BusinessLayer\ChatApplication.BusinessLayer.csproj", "{12B57EC2-3A8B-442C-BAC9-4806E7D6F0D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.BusinessLayer.UnitTests", "ChatApplication.BusinessLayer.UnitTests\ChatApplication.BusinessLayer.UnitTests.csproj", "{FA351ADF-39C0-4C73-A7AF-F7174A0D21D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApplication.BusinessLayer.UnitTests", "ChatApplication.BusinessLayer.UnitTests\ChatApplication.BusinessLayer.UnitTests.csproj", "{FA351ADF-39C0-4C73-A7AF-F7174A0D21D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.BusinessLayer.IntegrationTests", "ChatApplication.BusinessLayer.IntegrationTests\ChatApplication.BusinessLayer.IntegrationTests.csproj", "{064085D2-70C4-40B9-9DB7-894617DC2DAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApplication.BusinessLayer.IntegrationTests", "ChatApplication.BusinessLayer.IntegrationTests\ChatApplication.BusinessLayer.IntegrationTests.csproj", "{064085D2-70C4-40B9-9DB7-894617DC2DAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.WebApp", "Chat.WebApp\Chat.WebApp.csproj", "{F4DE82A5-2615-4D50-B993-2CA72C5AC269}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,5 +46,15 @@ Global
 		{064085D2-70C4-40B9-9DB7-894617DC2DAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{064085D2-70C4-40B9-9DB7-894617DC2DAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{064085D2-70C4-40B9-9DB7-894617DC2DAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4DE82A5-2615-4D50-B993-2CA72C5AC269}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4DE82A5-2615-4D50-B993-2CA72C5AC269}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4DE82A5-2615-4D50-B993-2CA72C5AC269}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4DE82A5-2615-4D50-B993-2CA72C5AC269}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D1AC7DB7-291B-43EF-B7C2-0AD861E669CE}
 	EndGlobalSection
 EndGlobal
