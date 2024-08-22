@@ -1,0 +1,13 @@
+﻿@rendermode InteractiveServer
+@inject ChatService ChatService
+
+<div class="search-input-container">
+    <i class="fa fa-search search-icon"></i> 
+    <InputText @bind-Value="userName" class="search-input" placeholder="Search" />
+</div>
+
+@code {
+    private string userName;
+
+
+}

@@ -1,0 +1,24 @@
+﻿@using Chat.WebApp
+@inject Model data
+
+<h3>AuthenticationStateTask</h3>
+
+@foreach (var superhero in superheroes)
+{
+    <div>@superhero.Name</div>
+}
+
+@code {
+    [CascadingParameter]
+    public required Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    List<Superhero> superheroes = new();
+    protected async override Task OnInitializedAsync()
+    {
+        var result = await authenticationStateTask;
+        if (result?.User?.Identity?.IsAuthenticated ?? false)
+        {
+            superheroes = data.GetData();
+        }
+    }
+}

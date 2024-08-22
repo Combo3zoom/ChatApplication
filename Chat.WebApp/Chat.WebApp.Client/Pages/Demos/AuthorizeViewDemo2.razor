@@ -1,0 +1,16 @@
+﻿@page "/AuthorizeViewDemo2"
+@using Chat.WebApp
+@inject Model data
+
+<h3>AuthorizeViewDemo2</h3>
+
+<AuthorizeView>
+    @foreach (var superhero in data.GetData())
+    {
+        <div>@superhero.Name</div>
+    }
+</AuthorizeView>
+
+@code {
+
+}
